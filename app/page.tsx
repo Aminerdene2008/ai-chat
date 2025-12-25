@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import CharacterPicker from '../components/CharacterPicker';
@@ -15,7 +15,7 @@ interface Character {
   greetingText: string;
 }
 
-export default function Home() {
+function Home() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [characters, setCharacters] = useState<Character[]>([]);
   const router = useRouter();
@@ -104,5 +104,13 @@ export default function Home() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Home />
+    </Suspense>
   );
 }
